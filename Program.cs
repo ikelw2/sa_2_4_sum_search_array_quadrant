@@ -89,42 +89,60 @@ double yCoord = Convert.ToDouble(Console.ReadLine());
 
 // a poss improved method to determine this would be to use geometric math
 
-// part 1: use logic to determine top/bottom and left/right variance
-bool isTop = false;
-if (yCoord >= 0)
-{
-    isTop = true;
-}
-bool isRight = false;
-if (xCoord >= 0)
-{
-    isRight = true;
-}
+// new solution using trig, after researching the function online
 
-// part 2: use logic following isTop and isRight to assign quadrant
-string quadrant = "undetermined";
-if (isTop) 
+// 1. Calculate angle from origin to x-y point (output in radians)
+double angleInRadians = Math.Atan2(yCoord, xCoord);
+
+angleInRadians %= Math.PI; // remove any excess PIs to keep it within range for our switch function
+
+string quadrant = angleInRadians switch 
 {
-    if (isRight)
-    {
-        quadrant = "I";
-    }
-    if (!isRight)
-    {
-        quadrant = "II";
-    }
-}
-else // isTop == false
-{
-    if (isRight)
-    {
-        quadrant = "III";
-    }
-    if (!isRight)
-    {
-        quadrant = "IV";
-    }
-}
+    >= 0 and < (Math.PI/2) => "I",
+    >= (Math.PI/2) and < (Math.PI) => "II",
+    >= (Math.PI) and < ( (3 * Math.PI) / 2) => "III",
+    >= ( (3 * Math.PI) / 2) => "IV"
+};
+
+
+// old solution using logic and conditions
+
+// // part 1: use logic to determine top/bottom and left/right variance
+// bool isTop = false;
+// if (yCoord >= 0)
+// {
+//     isTop = true;
+// }
+// bool isRight = false;
+// if (xCoord >= 0)
+// {
+//     isRight = true;
+// }
+
+// // part 2: use logic following isTop and isRight to assign quadrant
+// string quadrant = "undetermined";
+// if (isTop) 
+// {
+//     if (isRight)
+//     {
+//         quadrant = "I";
+//     }
+//     if (!isRight)
+//     {
+//         quadrant = "II";
+//     }
+// }
+// else // isTop == false
+// {
+//     if (isRight)
+//     {
+//         quadrant = "III";
+//     }
+//     if (!isRight)
+//     {
+//         quadrant = "IV";
+//     }
+// }
 
 Console.WriteLine($"\nThe XY point at ({xCoord}, {yCoord}) is in quadrant {quadrant}.\n");
 
